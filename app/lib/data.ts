@@ -5,6 +5,7 @@ import {
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
+  Product,
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -188,21 +189,21 @@ export async function fetchFilteredCustomers(query: string) {
   try {
     const data = await sql<CustomersTableType>`
 		SELECT
-		  customers.id,
-		  customers.name,
-		  customers.email,
-		  customers.image_url,
-		  COUNT(invoices.id) AS total_invoices,
-		  SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
-		  SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
+      customers.id,
+      customers.name,
+      customers.email,
+      customers.image_url,
+      COUNT(invoices.id) AS total_invoices,
+      SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
+      SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
 		FROM customers
 		LEFT JOIN invoices ON customers.id = invoices.customer_id
 		WHERE
-		  customers.name ILIKE ${`%${query}%`} OR
+      customers.name ILIKE ${`%${query}%`} OR
         customers.email ILIKE ${`%${query}%`}
 		GROUP BY customers.id, customers.name, customers.email, customers.image_url
 		ORDER BY customers.name ASC
-	  `;
+    `;
 
     const customers = data.rows.map((customer) => ({
       ...customer,
@@ -214,5 +215,73 @@ export async function fetchFilteredCustomers(query: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
+  }
+}
+
+export async function fetchFilteredProducts(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+  try {
+    const products = await sql<Product>`
+    SELECT
+      products.id,
+      products.name,
+      products.category,
+      products.price,
+      products.available,
+      products.image_url
+    FROM products
+    WHERE
+      products.name ILIKE ${`%${query}%`} OR
+      products.category ILIKE ${`%${query}%`}
+    ORDER BY products.category ASC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
+  return products.rows
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch products.');
+  }
+}
+
+export async function fetchProductsPages(query: string) {
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM products
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of products.');
+  }
+}
+
+export async function fetchProductById(id: string) {
+  try {
+    const data = await sql`
+      SELECT 
+        id,
+        name,
+        description,
+        category,
+        price,
+        available,
+        image_url
+      FROM products
+      WHERE id = ${id}
+    `
+
+    const product = data.rows
+    console.log(product)
+    return product[0];
+
+  } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch product.');
   }
 }

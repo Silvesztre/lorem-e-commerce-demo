@@ -31,6 +31,17 @@ export type Revenue = {
   revenue: number;
 };
 
+export type Product = {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string;
+  price: number;
+  available: number;
+  created_at: string;
+  image_url: string;
+}
+
 export type LatestInvoice = {
   id: string;
   name: string;
@@ -86,3 +97,13 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type ProductForm = {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string;
+  price: number;
+  available: number;
+  image_url: string;
+}
