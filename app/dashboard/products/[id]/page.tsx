@@ -1,12 +1,11 @@
-import EditProductForm from '@/app/ui/products/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchProductById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
+import AddToCartForm from '@/app/ui/products/cart-form';
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const id = params.id;
+    const id = params.id
     const product = await fetchProductById(id)
-    /* console.log(product.name) */
 
     if (!product) {
         notFound();
@@ -18,13 +17,13 @@ export default async function Page({ params }: { params: { id: string } }) {
         breadcrumbs={[
             { label: 'Products', href: '/dashboard/products' },
             {
-            label: 'Edit Product',
-            href: `/dashboard/products/${id}/edit`,
+            label: `${product.name}`,
+            href: `/dashboard/products/${id}`,
             active: true,
             },
         ]}
         />
-        <EditProductForm product={product} />
+        <AddToCartForm product={product}/>
     </main>
-    );
+    )
 }

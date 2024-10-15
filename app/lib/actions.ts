@@ -1,6 +1,6 @@
 'use server'
 
-import { z } from 'zod'
+import { number, z } from 'zod'
 import { sql } from '@vercel/postgres'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -149,7 +149,7 @@ const ProductFormSchema = z.object({
     category: z.string({
       invalid_type_error: 'Please enter a product category.'
     }).min(1, {message: 'Please enter a product category.'}),
-    price: z.coerce.number().gt(0, {message: 'Please enter an amount greater than $0.'}),
+    price: z.coerce.number().gt(0, {message: 'Please enter a price greater than $0.'}),
     available: z.coerce.number().gt(0, {message: 'Please enter an amount greater than $0.'}),
     created_at: z.string(),
     image: z.object({
@@ -263,8 +263,37 @@ export async function deleteProduct(id: string) {
   }
 }
 
-export async function addProductToCart(id: string) {
+const ProductToCartFormSchema = z.object({
+  id: z.string(),
+  amount: z.coerce.number().int().gt(0, {message: 'Please enter an amount greater than 0.'}),
+})
+
+const AddToCart = ProductToCartFormSchema.omit({id: true})
+
+export type ProductCartState = {
+  errors?: {
+    amount?: string[]
+  }
+  message?: string | null
+}
+
+export async function addProductToCart(id:string, available:number, prevState: ProductCartState, formData: FormData) {
   console.log('function called')
+  const validatedFields = AddToCart.safeParse({
+    amount: formData.get('amount')
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Add to Cart.'
+    }
+  }
+
+  const { amount } = validatedFields.data
+  const amountInStock = available - amount
+  console.log(amount, " ", amountInStock)
+
   try {
     await sql`
       
@@ -272,4 +301,7 @@ export async function addProductToCart(id: string) {
   } catch (error) {
       return { message: 'Database Error: Failed to Add Product to Cart.' }
   }
+
+  revalidatePath('/dashboard/products')
+  redirect('/dashboard/products')
 }

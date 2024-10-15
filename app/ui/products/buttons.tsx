@@ -40,14 +40,12 @@ export function DeleteProduct({ id }: { id: string }) {
 }
 
 export function AddToCart({ id }: { id: string }) {
-    const addToCartWithId = addProductToCart.bind(null, id)
-
     return (
-        <form action={addToCartWithId}>
-        <button className="rounded-md border p-2 hover:bg-gray-100">
-            <span className="sr-only">Add to Cart</span>
-            <ShoppingBagIcon className="w-5" />
-        </button>
-        </form>
+        <Link
+        href={`/dashboard/products/${id}`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+        >
+        <ShoppingBagIcon className="w-5" />
+        </Link>
     )
 }
