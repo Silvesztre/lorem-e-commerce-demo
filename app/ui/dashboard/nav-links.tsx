@@ -22,7 +22,7 @@ const links = [
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
   { name: 'Products', href: '/dashboard/products', icon: ShoppingBagIcon },
-  { name: 'Cart', href: 'dashboard/cart', icon: ShoppingCartIcon },
+  { name: 'Cart', href: '/dashboard/cart', icon: ShoppingCartIcon },
 ];
 
 export default function NavLinks() {

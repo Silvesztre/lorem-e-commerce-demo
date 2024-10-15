@@ -291,17 +291,19 @@ export async function addProductToCart(id:string, available:number, prevState: P
   }
 
   const { amount } = validatedFields.data
-  const amountInStock = available - amount
-  console.log(amount, " ", amountInStock)
+  // const amountInStock = available - amount
+  // console.log(amount, " ", amountInStock)
 
   try {
     await sql`
-      
+      INSERT INTO cart_items (product_id, amount)
+      VALUES (${id}, ${amount})
     `
   } catch (error) {
       return { message: 'Database Error: Failed to Add Product to Cart.' }
   }
 
+  console.log("Success!")
   revalidatePath('/dashboard/products')
   redirect('/dashboard/products')
 }

@@ -53,7 +53,7 @@ export default function AddToCartForm({
                             max={product.available}
                             defaultValue={1}
                             placeholder="Amount"
-                            className="flex items-center rounded-md border-2 border-gray-200 py-2 pl-10 text-lg h-10 outline-2 placeholder:text-gray-500"
+                            className="flex items-center rounded-md border-2 border-gray-200 py-2 text-lg h-10 w-24 outline-2 placeholder:text-gray-500"
                             aria-describedby='price-error'
                         />
                         <Button type="submit">Add to Cart</Button>
