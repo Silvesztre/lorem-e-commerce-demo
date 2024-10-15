@@ -275,10 +275,18 @@ export async function fetchProductById(id: string) {
       FROM products
       WHERE id = ${id}
     `
+    const product = data.rows[0]
+    // console.log(product)
 
-    const product = data.rows
-    console.log(product)
-    return product[0];
+    return {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      available: product.available,
+      image_url: product.image_url
+    };
 
   } catch (error) {
       console.error('Database Error:', error);
