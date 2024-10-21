@@ -1,15 +1,15 @@
-import Image from 'next/image';
-import { fetchFilteredProducts } from 'app/lib/data';
-import { UpdateProduct, DeleteProduct, AddToCart } from './buttons';
+'use client'
 
-export default async function ProductsTable({
-  query,
-  currentPage,
+import Image from 'next/image';
+import { Button } from '../button';
+import { cancelCartItems, checkoutCart } from '@/app/lib/actions';
+import { QueryResultRow } from '@vercel/postgres';
+
+export default function Checkout({
+  products
 }: {
-  query: string;
-  currentPage: number;
+  products: QueryResultRow[]
 }) {
-  const products = await fetchFilteredProducts(query, currentPage);
 
   return (
     <div className="mt-6 flow-root ">
@@ -35,18 +35,18 @@ export default async function ProductsTable({
                     </div>
                     <p className="text-sm text-gray-500">{product.category}</p>
                   </div>
-                  <p>{product.available}</p>
+                  <p className='text-xl'>
+                    {`Amount: ${product.total_amount}`}
+                  </p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
-                    <p className="text-xl font-medium">
-                      {`$${product.price}`}
+                    <p className="font-medium">
+                      {`$${product.price_per_piece}/piece`}
                     </p>
                   </div>
-                  <div className="flex justify-end gap-2">
-                    <AddToCart id={product.id} />
-                    <UpdateProduct id={product.id} />
-                    <DeleteProduct id={product.id} />
+                  <div className="flex justify-end gap-2 text-xl">
+                    {`Total: $${product.total_price}`}
                   </div>
                 </div>
               </div>
@@ -62,13 +62,13 @@ export default async function ProductsTable({
                   Category
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Price
+                  Quantity
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Available
+                  Price / Item
                 </th>
-                <th scope="col" className="relative py-3 pl-3 pr-3">
-                  <span className="sr-only">Edit</span>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Total Price
                 </th>
               </tr>
             </thead>
@@ -94,23 +94,29 @@ export default async function ProductsTable({
                     {product.category}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    ${product.price}
+                    {product.total_amount}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {product.available}
+                    {`$${product.price_per_piece}`}
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-3 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <AddToCart id={product.id} />
-                      <UpdateProduct id={product.id} />
-                      <DeleteProduct id={product.id} />
-                    </div>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {`$${product.total_price}`}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+          <div className="mt-6 flex justify-end gap-4">
+            <button className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+                onClick={() => cancelCartItems()}
+            >
+                Cancel
+            </button>
+            <Button onClick={() => checkoutCart()}>
+                Checkout
+            </Button> 
+          </div>
       </div>
     </div>
   );

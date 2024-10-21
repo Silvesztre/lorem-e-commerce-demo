@@ -175,7 +175,6 @@ export default function EditProductForm({
                             name="image"
                             type="file"
                             accept="image/*"
-                            defaultValue={product.image_url}
                             placeholder="Enter Product Image"
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             aria-describedby='image-error'

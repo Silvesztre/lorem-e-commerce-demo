@@ -307,3 +307,36 @@ export async function addProductToCart(id:string, available:number, prevState: P
   revalidatePath('/dashboard/products')
   redirect('/dashboard/products')
 }
+
+export async function cancelCartItems() {
+  console.log('function called')
+  try {
+    await sql`
+      DELETE FROM cart_items
+    `
+    revalidatePath('/dashboard/products')
+    redirect('/dashboard/products')
+  } catch (error) {
+    return {message: "Database Error. Failed to remove items from cart."}
+  }
+}
+
+export async function checkoutCart() {
+  console.log("function called.")
+  try {
+    await sql`
+      UPDATE products
+      SET available = products.available - cart_items.amount
+      FROM cart_items
+      WHERE products.id = cart_items.product_id::uuid;
+    `
+    await sql`
+      DELETE FROM cart_items
+    `
+    
+    revalidatePath('/dashboard/products')
+    redirect('/dashboard/products')
+  } catch (error) {
+    return { message: "Database Error. Failed to checkout."}
+  }
+}

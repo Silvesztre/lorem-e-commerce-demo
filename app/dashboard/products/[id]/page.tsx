@@ -1,7 +1,7 @@
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchProductById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-import AddToCartForm from '@/app/ui/products/cart-form';
+import AddToCartForm from '@/app/ui/products/to-cart-form';
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id

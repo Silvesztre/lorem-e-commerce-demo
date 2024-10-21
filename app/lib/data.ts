@@ -9,6 +9,8 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export async function fetchRevenue() {
   try {
@@ -291,5 +293,21 @@ export async function fetchProductById(id: string) {
   } catch (error) {
       console.error('Database Error:', error);
       throw new Error('Failed to fetch product.');
+  }
+}
+
+export async function fetchCartItems() {
+  try {
+    const cart_items = await sql`
+      SELECT  products.image_url, products.name, products.category, SUM(cart_items.amount) AS total_amount, 
+              products.price AS price_per_piece, SUM(cart_items.amount) * products.price AS total_price
+      FROM products
+      JOIN cart_items ON products.id = cart_items.product_id::uuid
+      GROUP BY products.image_url, products.name, products.category, products.price;
+    `
+    return cart_items.rows;
+  } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch cart items.')
   }
 }
