@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
+import { fetchCartId } from './data'
 
 const FormSchema = z.object({
     id: z.string(),
@@ -195,18 +196,17 @@ export async function addProduct(prevState: ProductState, formData: FormData) {
 
   // Prepare data for insertion into the database
   let { name, description, category, price, available, image } = validatedFields.data
-  const created_at = new Date().toISOString().split('T')[0]
   const image_url = `/products/${image.name}`
 
   // Insert data into the database
   try {
     await sql`
-      INSERT INTO products (name, description, category, price, available, created_at, image_url)
-      VALUES (${name}, ${description}, ${category}, ${price}, ${available}, ${created_at}, ${image_url})
+      INSERT INTO products (name, description, category, price, available, image_url)
+      VALUES (${name}, ${description}, ${category}, ${price}, ${available}, ${image_url})
       `
   } catch (error) {
     // If a database error occurs, return a more specific error.
-    console.log(name, description, category, price, available, created_at, image_url)
+    console.log(name, description, category, price, available, image_url)
     return {
       message: 'Database Error: Failed to Add Product.'
     };
@@ -277,8 +277,8 @@ export type ProductCartState = {
   message?: string | null
 }
 
-export async function addProductToCart(id:string, available:number, prevState: ProductCartState, formData: FormData) {
-  console.log('function called')
+export async function addProductToCart(id:string, user_id: string | undefined, available:number, prevState: ProductCartState, formData: FormData) {
+  // console.log('function called')
   const validatedFields = AddToCart.safeParse({
     amount: formData.get('amount')
   })
@@ -291,14 +291,14 @@ export async function addProductToCart(id:string, available:number, prevState: P
   }
 
   const { amount } = validatedFields.data
-  // const amountInStock = available - amount
-  // console.log(amount, " ", amountInStock)
+
+  const cart_id = await fetchCartId(user_id)
 
   try {
-    await sql`
-      INSERT INTO cart_items (product_id, amount)
-      VALUES (${id}, ${amount})
-    `
+      await sql`
+        INSERT INTO cart_items (cart_id, product_id, quantity)
+        VALUES (${cart_id}, ${id}, ${amount})
+      `
   } catch (error) {
       return { message: 'Database Error: Failed to Add Product to Cart.' }
   }
@@ -308,11 +308,14 @@ export async function addProductToCart(id:string, available:number, prevState: P
   redirect('/dashboard/products')
 }
 
-export async function cancelCartItems() {
+export async function cancelCartItems(user_id: string | undefined) {
   console.log('function called')
+  const cart_id = await fetchCartId(user_id)
+
   try {
     await sql`
       DELETE FROM cart_items
+      WHERE cart_id = ${cart_id}
     `
     revalidatePath('/dashboard/products')
     redirect('/dashboard/products')

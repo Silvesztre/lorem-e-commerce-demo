@@ -7,6 +7,7 @@ import { useActionState } from "react"
 import { ProductForm } from "@/app/lib/definitions"
 import { lusitana } from '@/app/ui/fonts';
 import { ProductCartState, addProductToCart } from "@/app/lib/actions"
+import { useSession } from "next-auth/react"
 
 
 export default function AddToCartForm({
@@ -14,9 +15,10 @@ export default function AddToCartForm({
 }: {
     product: ProductForm
 }) {
-    const initialState: ProductCartState = {message: null, errors: {}}
-    const addToCart = addProductToCart.bind(null, product.id, product.available)
+    const { data: session } = useSession()
 
+    const initialState: ProductCartState = {message: null, errors: {}}
+    const addToCart = addProductToCart.bind(null, product.id, session?.user?.id, product.available)
     const [state, formAction] = useActionState(addToCart, initialState)
 
     return (

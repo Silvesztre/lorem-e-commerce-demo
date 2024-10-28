@@ -4,12 +4,15 @@ import Image from 'next/image';
 import { Button } from '../button';
 import { cancelCartItems, checkoutCart } from '@/app/lib/actions';
 import { QueryResultRow } from '@vercel/postgres';
+import { useSession } from "next-auth/react"
 
 export default function Checkout({
   products
 }: {
   products: QueryResultRow[]
 }) {
+
+  const { data: session } = useSession()
 
   return (
     <div className="mt-6 flow-root ">
@@ -36,7 +39,7 @@ export default function Checkout({
                     <p className="text-sm text-gray-500">{product.category}</p>
                   </div>
                   <p className='text-xl'>
-                    {`Amount: ${product.total_amount}`}
+                    {`Quantity: ${product.total_quantity}`}
                   </p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
@@ -94,7 +97,7 @@ export default function Checkout({
                     {product.category}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {product.total_amount}
+                    {product.total_quantity}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {`$${product.price_per_piece}`}
@@ -109,7 +112,7 @@ export default function Checkout({
         </div>
           <div className="mt-6 flex justify-end gap-4">
             <button className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-                onClick={async () => await cancelCartItems()}
+                onClick={async () => await cancelCartItems(session?.user?.id)}
             >
                 Cancel
             </button>

@@ -9,8 +9,6 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export async function fetchRevenue() {
   try {
@@ -299,8 +297,8 @@ export async function fetchProductById(id: string) {
 export async function fetchCartItems() {
   try {
     const cart_items = await sql`
-      SELECT  products.image_url, products.name, products.category, SUM(cart_items.amount) AS total_amount, 
-              products.price AS price_per_piece, SUM(cart_items.amount) * products.price AS total_price
+      SELECT  products.image_url, products.name, products.category, SUM(cart_items.quantity) AS total_quantity, 
+              products.price AS price_per_piece, SUM(cart_items.quantity) * products.price AS total_price
       FROM products
       JOIN cart_items ON products.id = cart_items.product_id::uuid
       GROUP BY products.image_url, products.name, products.category, products.price;
@@ -309,5 +307,18 @@ export async function fetchCartItems() {
   } catch (error) {
       console.error('Database Error:', error);
       throw new Error('Failed to fetch cart items.')
+  }
+}
+
+export async function fetchCartId(user_id: string | undefined) {
+  try {
+    const cart_id = await sql`
+      SELECT cart_id FROM carts
+      WHERE user_id = ${user_id}
+    `
+    return cart_id.rows[0].cart_id
+  } catch (error) {
+      console.error('Database Error:', error)
+      throw new Error('Failed to fetch cart id.')
   }
 }
