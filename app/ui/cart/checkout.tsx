@@ -7,12 +7,15 @@ import { QueryResultRow } from '@vercel/postgres';
 import { useSession } from "next-auth/react"
 
 export default function Checkout({
-  products
+  products,
+  cartId
 }: {
-  products: QueryResultRow[]
+  products: QueryResultRow[],
+  cartId: string
 }) {
 
   const { data: session } = useSession()
+  console.log(cartId)
 
   return (
     <div className="mt-6 flow-root ">
@@ -112,11 +115,11 @@ export default function Checkout({
         </div>
           <div className="mt-6 flex justify-end gap-4">
             <button className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-                onClick={async () => await cancelCartItems(session?.user?.id)}
+                onClick={async () => await cancelCartItems(cartId)}
             >
                 Cancel
             </button>
-            <Button onClick={async () => await checkoutCart()}>
+            <Button onClick={async () => await checkoutCart(cartId)}>
                 Checkout
             </Button> 
           </div>

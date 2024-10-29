@@ -35,9 +35,9 @@ export const {
         const { email, password } = parsedCredentials.data;
         const user = await getUser(email);
         if (!user) return null;
-/*         const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
-        if (passwordMatch) return user; */
+        if (passwordMatch) return user;
 
         return user
       }

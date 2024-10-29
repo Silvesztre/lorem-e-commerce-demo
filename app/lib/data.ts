@@ -294,13 +294,16 @@ export async function fetchProductById(id: string) {
   }
 }
 
-export async function fetchCartItems() {
+export async function fetchCartItems(cart_id: string | undefined) {
   try {
     const cart_items = await sql`
-      SELECT  products.image_url, products.name, products.category, SUM(cart_items.quantity) AS total_quantity, 
-              products.price AS price_per_piece, SUM(cart_items.quantity) * products.price AS total_price
+      SELECT products.image_url, products.name, products.category, 
+              SUM(cart_items.quantity) AS total_quantity, 
+              products.price AS price_per_piece, 
+              SUM(cart_items.quantity) * products.price AS total_price
       FROM products
       JOIN cart_items ON products.id = cart_items.product_id::uuid
+      WHERE cart_items.cart_id = ${cart_id}
       GROUP BY products.image_url, products.name, products.category, products.price;
     `
     return cart_items.rows;

@@ -25,7 +25,7 @@ export const authConfig = {
       if (token.sub && session.user) {
         session.user.id = token.sub
       }
-      console.log(session)
+      // console.log(session)
       return session
     },
 

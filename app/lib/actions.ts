@@ -308,10 +308,7 @@ export async function addProductToCart(id:string, user_id: string | undefined, a
   redirect('/dashboard/products')
 }
 
-export async function cancelCartItems(user_id: string | undefined) {
-  console.log('function called')
-  const cart_id = await fetchCartId(user_id)
-
+export async function cancelCartItems(cart_id: string | undefined) {
   try {
     await sql`
       DELETE FROM cart_items
@@ -324,22 +321,23 @@ export async function cancelCartItems(user_id: string | undefined) {
   }
 }
 
-export async function checkoutCart() {
-  console.log("function called.")
+export async function checkoutCart(cart_id: string | undefined) {
   try {
     await sql`
       UPDATE products
-      SET available = products.available - cart_items.amount
+      SET available = products.available - cart_items.quantity
       FROM cart_items
-      WHERE products.id = cart_items.product_id::uuid;
-    `
+      WHERE products.id = cart_items.product_id::uuid AND cart_items.cart_id = ${cart_id}
+    `;
     await sql`
       DELETE FROM cart_items
-    `
-    
-    revalidatePath('/dashboard/products')
-    redirect('/dashboard/products')
+      WHERE cart_id = ${cart_id}
+    `;
   } catch (error) {
-    return { message: "Database Error. Failed to checkout."}
+    console.error("Database Error:", error); // Debugging line for errors
+    return { message: "Database Error. Failed to checkout." };
+  } finally {
+    revalidatePath('/dashboard/products');
+    redirect('/dashboard/products');
   }
 }

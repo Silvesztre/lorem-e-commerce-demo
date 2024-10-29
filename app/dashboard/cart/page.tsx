@@ -1,12 +1,15 @@
 import { lusitana } from '@/app/ui/fonts';
-import { fetchCartItems } from '@/app/lib/data';
+import { fetchCartItems, fetchCartId } from '@/app/lib/data';
 import Checkout from '@/app/ui/cart/checkout';
+import { auth } from '@/auth';
 
 export default async function Page() {
-    const products = await fetchCartItems()
+    const session = await auth()
+    const userId = session?.user?.id
+    const cartId = await fetchCartId(userId)
+    const products = await fetchCartItems(cartId)
 
     return (
-        
         <div className='w-full'>
             <div className='flex w-full items-center justify-between'>
                 <h1 className={`${lusitana.className} text-2xl`}>
@@ -14,7 +17,7 @@ export default async function Page() {
                 </h1>
             </div>
             <div>
-                <Checkout products={products}/>
+                <Checkout products={products} cartId={cartId}/>
             </div>
         </div>
     )
