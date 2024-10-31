@@ -314,10 +314,11 @@ export async function cancelCartItems(cart_id: string | undefined) {
       DELETE FROM cart_items
       WHERE cart_id = ${cart_id}
     `
-    revalidatePath('/dashboard/products')
-    redirect('/dashboard/products')
   } catch (error) {
     return {message: "Database Error. Failed to remove items from cart."}
+  } finally {
+    revalidatePath('/dashboard/products')
+    redirect('/dashboard/products')
   }
 }
 
