@@ -2,6 +2,11 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchCartItems, fetchCartId } from '@/app/lib/data';
 import Checkout from '@/app/ui/cart/checkout';
 import { auth } from '@/auth';
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: 'Accessory',
+}
 
 export default async function Page() {
     const session = await auth()

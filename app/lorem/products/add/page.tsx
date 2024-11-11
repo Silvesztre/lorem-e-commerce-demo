@@ -6,8 +6,8 @@ export default function Page() {
         <main>
             <Breadcrumbs 
                 breadcrumbs={[
-                    { label: "Products", href: "/dashboard/products" },
-                    { label: "Add Products", href: "/dashboard/products/add", active: true }
+                    { label: "Products", href: "/lorem/products" },
+                    { label: "Add Products", href: "/lorem/products/add", active: true }
                 ]}
             />
             <Form />

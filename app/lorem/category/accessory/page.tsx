@@ -1,4 +1,8 @@
+import { Metadata } from "next"
 
+export const metadata: Metadata = {
+    title: 'Accessory',
+}
 
 export default function Page() {
     return (

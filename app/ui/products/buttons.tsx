@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { PencilIcon, PlusIcon, TrashIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { deleteProduct, addProductToCart } from "@/app/lib/actions";
-import { fetchProductById } from "@/app/lib/data";
 
 export function AddProduct() {
     return (
         <Link
-            href="/dashboard/products/add"
+            href="/lorem/products/add"
             className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
             <span className="hidden md:block">Add Products</span>{' '}
@@ -18,7 +17,7 @@ export function AddProduct() {
 export function UpdateProduct({ id }: { id: string }) {
     return (
         <Link
-        href={`/dashboard/products/${id}/edit`}
+        href={`/lorem/products/${id}/edit`}
         className="rounded-md border p-2 hover:bg-gray-100"
         >
         <PencilIcon className="w-5" />
@@ -42,7 +41,7 @@ export function DeleteProduct({ id }: { id: string }) {
 export function AddToCart({ id }: { id: string }) {
     return (
         <Link
-        href={`/dashboard/products/${id}`}
+        href={`/lorem/products/${id}`}
         className="rounded-md border p-2 hover:bg-gray-100"
         >
         <ShoppingBagIcon className="w-5" />

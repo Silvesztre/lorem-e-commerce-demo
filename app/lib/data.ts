@@ -325,3 +325,16 @@ export async function fetchCartId(user_id: string | undefined) {
       throw new Error('Failed to fetch cart id.')
   }
 }
+
+export async function getProductByName(product_name: string | undefined) {
+  try {
+    const product = await sql`
+      SELECT * FROM products
+      WHERE name = ${product_name}
+    `
+    return product.rows[0]
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch product.')
+  }
+}

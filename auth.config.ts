@@ -10,12 +10,12 @@ export const authConfig = {
       console.log("ROUTE: ", nextUrl.pathname)
       // console.log("IS LOGGEDIN: ", isLoggedIn)
 
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      if (isOnDashboard) {
+      const isOnLorem = nextUrl.pathname.startsWith('/lorem');
+      if (isOnLorem) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated user to login page
       } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl))
+        return Response.redirect(new URL('/lorem', nextUrl))
       }
       return true;
     },
