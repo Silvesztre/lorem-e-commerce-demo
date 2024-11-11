@@ -1,12 +1,14 @@
 'use client'
 
 import {
-  UserGroupIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
   ShoppingBagIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
 } from '@heroicons/react/24/outline';
+import {
+  Shirt01Icon,
+  NecklaceIcon
+} from 'hugeicons-react';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -16,6 +18,8 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Products', href: '/dashboard/products', icon: ShoppingBagIcon },
+  { name: 'Apparels', href: '/dashboard/category/apparel', icon: Shirt01Icon},
+  { name: 'Accessories', href: '/dashboard/category/accessory', icon: NecklaceIcon},
   { name: 'Cart', href: '/dashboard/cart', icon: ShoppingCartIcon },
 ];
 

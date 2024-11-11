@@ -8,7 +8,7 @@ import Pagination from '@/app/ui/invoices/pagination';
 
 export const metadata: Metadata = {
     title: 'Products',
-  }
+}
 
 export default async function Page({
     searchParams,

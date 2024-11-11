@@ -13,8 +13,8 @@ export default function TopNav() {
         <div className="flex-shrink-0 ml-5">
           <Link 
             href="/" 
-            className="text-xl font-semibold text-gray-800">
-            BrandName
+            className="text-2xl font-semibold text-gray-800">
+            Lorem
           </Link>
         </div>
 
@@ -27,7 +27,7 @@ export default function TopNav() {
           'use server';
           await signOut();
         }}>
-          <button className="flex h-[64px] grow items-center justify-center gap-2 bg-white p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:py-2 md:px-3">
+          <button className="flex h-[64px] grow items-center justify-center gap-2 p-3 text-sm font-medium hover:bg-rose-50 hover:text-red-600 md:flex-none md:justify-start md:py-2 md:px-3">
             <PowerIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
           </button>

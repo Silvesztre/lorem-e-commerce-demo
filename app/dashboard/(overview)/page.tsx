@@ -1,40 +1,51 @@
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
-import CardWrapper from '@/app/ui/dashboard/cards';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchCardData } from '../../lib/data';
-import { Suspense } from 'react';
-import { RevenueChartSkeleton, 
-         LatestInvoicesSkeleton,
-         CardsSkeleton } from '@/app/ui/skeletons';
- 
+import Image from 'next/image';
+import Link from 'next/link';
 export default async function Page() {
 
-  const { 
-    numberOfCustomers, 
-    numberOfInvoices, 
-    totalPaidInvoices, 
-    totalPendingInvoices 
-  } = await fetchCardData()
 
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
+      <h1 className={`${lusitana.className} mb-9 text-xl md:text-4xl text-center font-bold`}>
+        Discover Your Ideal Style
       </h1>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Suspense fallback={<CardsSkeleton />}>
-          <CardWrapper />
-        </Suspense>
+      <div className='border-black border-[1px] mb-10' />
+      <div className="flex justify-center mb-9">
+          <Image 
+              src='/home/Slides_1.png' 
+              alt='slider image 1'
+              width={1220}
+              height={1220}
+          />
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart />
-        </Suspense>
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestInvoices />
-        </Suspense>
+      <div className='flex justify-center '>
+        <div className='flex flex-row max-w-[1220px] justify-between gap-4 '>
+          <div>
+            <Link href={'/dashboard/category/apparel'}>
+              <Image 
+                  src='/home/apparel.png' 
+                  alt='slider image 1'
+                  width={610}
+                  height={610}
+                  className='hover:cursor-pointer hover:opacity-50 transition-opacity duration-300'
+              />
+            </Link>
+          </div>
+          <div>
+            <Link href={'/dashboard/category/accessory'}>
+              <Image 
+                  src='/home/accessories_edited.png' 
+                  alt='slider image 1'
+                  width={610}
+                  height={610}
+                  className='hover:cursor-pointer hover:opacity-50 transition-opacity duration-300'
+              />
+            </Link>
+
+          </div>
+        </div>
       </div>
+      
     </main>
   );
 }
