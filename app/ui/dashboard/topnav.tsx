@@ -13,7 +13,9 @@ export default function TopNav() {
         <div className="flex-shrink-0 ml-5">
           <Link 
             href="/" 
-            className="text-2xl font-semibold text-gray-800">
+            className="text-2xl font-semibold text-gray-800"
+            prefetch={true}
+          >
             Lorem
           </Link>
         </div>

@@ -15,8 +15,8 @@ export async function fetchRevenue() {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-      console.log('Fetching revenue data...');
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+/*       console.log('Fetching revenue data...');
+      await new Promise((resolve) => setTimeout(resolve, 3000)); */
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -297,14 +297,22 @@ export async function fetchProductById(id: string) {
 export async function fetchCartItems(cart_id: string | undefined) {
   try {
     const cart_items = await sql`
-      SELECT products.image_url, products.name, products.category, 
-              SUM(cart_items.quantity) AS total_quantity, 
-              products.price AS price_per_piece, 
-              SUM(cart_items.quantity) * products.price AS total_price
-      FROM products
-      JOIN cart_items ON products.id = cart_items.product_id::uuid
-      WHERE cart_items.cart_id = ${cart_id}
-      GROUP BY products.image_url, products.name, products.category, products.price;
+    SELECT 
+        p.image_url, 
+        p.name, 
+        p.category, 
+        SUM(ci.quantity) AS total_quantity, 
+        p.price AS price_per_piece, 
+        SUM(ci.quantity) * p.price AS total_price
+    FROM 
+        cart_items ci
+    JOIN 
+        products p 
+        ON p.id = ci.product_id
+    WHERE 
+        ci.cart_id = ${cart_id}
+    GROUP BY 
+        p.image_url, p.name, p.category, p.price;
     `
     return cart_items.rows;
   } catch (error) {
@@ -326,7 +334,7 @@ export async function fetchCartId(user_id: string | undefined) {
   }
 }
 
-export async function getProductByName(product_name: string | undefined) {
+export async function getProductByName(product_name: string) {
   try {
     const product = await sql`
       SELECT * FROM products

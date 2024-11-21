@@ -10,7 +10,7 @@ export default function ProductCard({
     product: QueryResultRow
 }) {
     return (
-        <Link href={`/lorem/products/${product.id}`}>
+        <Link href={`/lorem/products/${product.id}`} prefetch={true}>
             <div className="max-w-[404px] overflow-hidden rounded-md border-gray-200 border-[1px] hover:cursor-pointer hover:opacity-65 transition-opacity duration-300">
                 <Image
                     src={product.image_url}

@@ -16,6 +16,12 @@ export default function Checkout({
 
   const { data: session } = useSession()
   console.log(cartId)
+  let total_price = 0
+
+  products?.forEach((product) => {
+    let price = Number(product.total_price);
+    total_price += price; // Accumulate total price
+  });
 
   return (
     <div className="mt-6 flow-root ">
@@ -112,7 +118,8 @@ export default function Checkout({
               ))}
             </tbody>
           </table>
-        </div>
+        </div> 
+          <div className='font-bold text-xl flex justify-end pr-14 mt-4'>Total Price: ${total_price}</div>
           <div className="mt-6 flex justify-end gap-4">
             <button className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 onClick={async () => await cancelCartItems(cartId)}

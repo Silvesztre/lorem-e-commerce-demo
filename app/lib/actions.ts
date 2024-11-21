@@ -206,7 +206,7 @@ export async function addProduct(prevState: ProductState, formData: FormData) {
       `
   } catch (error) {
     // If a database error occurs, return a more specific error.
-    console.log(name, description, category, price, available, image_url)
+    // console.log(name, description, category, price, available, image_url)
     return {
       message: 'Database Error: Failed to Add Product.'
     };

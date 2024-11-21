@@ -12,8 +12,6 @@ export default async function Page() {
   const balenciaga = await getProductByName('Balenciaga Under Armour Knit Sneaker')
   const hmTennis = await getProductByName('DryMove Pleated tennis skirt')
 
-  console.log(balenciaga)
-
   return (
     <main>
       <h1 className={`${lusitana.className} mb-9 text-xl md:text-4xl text-center font-bold`}>
@@ -36,7 +34,7 @@ export default async function Page() {
       <div className='flex justify-center'>
         <div className='flex flex-row max-w-[1220px] justify-between gap-4'>
           <div>
-            <Link href={'/lorem/category/apparel'}>
+            <Link href={'/lorem/category/apparel'} prefetch={true}>
               <Image 
                   src='/home/apparel.png' 
                   alt='slider image 1'
@@ -47,7 +45,7 @@ export default async function Page() {
             </Link>
           </div>
           <div>
-            <Link href={'/lorem/category/accessory'}>
+            <Link href={'/lorem/category/accessory'} prefetch={true}>
               <Image 
                   src='/home/accessories_edited.png' 
                   alt='slider image 1'
