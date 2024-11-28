@@ -260,6 +260,9 @@ export async function deleteProduct(id: string) {
     `
   } catch (error) {
       return { message: 'Database Error: Failed to Delete Product.' }
+  } finally {
+    revalidatePath('/lorem/products')
+    redirect('/lorem/products')
   }
 }
 

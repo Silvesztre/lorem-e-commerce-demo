@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Button } from '../button';
 import { cancelCartItems, checkoutCart } from '@/app/lib/actions';
 import { QueryResultRow } from '@vercel/postgres';
-import { useSession } from "next-auth/react"
 
 export default function Checkout({
   products,
@@ -14,8 +13,6 @@ export default function Checkout({
   cartId: string
 }) {
 
-  const { data: session } = useSession()
-  console.log(cartId)
   let total_price = 0
 
   products?.forEach((product) => {
