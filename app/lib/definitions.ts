@@ -107,3 +107,10 @@ export type ProductForm = {
   available: number;
   image_url: string;
 }
+
+export type ProductInCard = {
+  id: string;
+  image_url: string;
+  name: string;
+  price: number;
+}

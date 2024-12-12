@@ -5,12 +5,16 @@ import ProductCard from '@/app/ui/products/card';
 import { getProductByName } from '@/app/lib/data';
 
 export default async function Page() {
-  const cartier = await getProductByName('Cartier LOVE Bracelet')
-  const ana = await getProductByName('Ana Luisa Gold Heart Necklace')
-  const pandora = await getProductByName('Pandora Timeless Pavé Single-row Hoop Earrings')
-  const hmShirt = await getProductByName('Relaxed Fit Short-sleeved shirt')
-  const balenciaga = await getProductByName('Balenciaga Under Armour Knit Sneaker')
-  const hmTennis = await getProductByName('DryMove Pleated tennis skirt')
+  const productNames = [
+    'Cartier LOVE Bracelet',
+    'Ana Luisa Gold Heart Necklace',
+    'Pandora Timeless Pavé Single-row Hoop Earrings',
+    'Relaxed Fit Short-sleeved shirt',
+    'Balenciaga Under Armour Knit Sneaker',
+    'DryMove Pleated tennis skirt',
+  ];
+  
+  const products = await Promise.all(productNames.map(name => getProductByName(name)));
 
   return (
     <main>
@@ -60,21 +64,13 @@ export default async function Page() {
 
       {/* Home Page Product Preview */}
       <div className='flex justify-center mt-9'>
-        <div className='flex flex-row w-[1220px] justify-between gap-5'>
-          <ProductCard product={cartier}/>
-          <ProductCard product={ana}/>
-          <ProductCard product={pandora}/>
+        <div className="grid grid-cols-3 gap-5 w-[1220px] justify-between">
+          {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </div>
-
-      <div className='flex justify-center mt-9'>
-        <div className='flex flex-row w-[1220px] justify-between gap-5'>
-          <ProductCard product={hmShirt}/>
-          <ProductCard product={hmTennis}/>
-          <ProductCard product={balenciaga}/>
-        </div>
-      </div>
-
+      
     </main>
   );
 }
