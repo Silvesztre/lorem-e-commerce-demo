@@ -11,8 +11,8 @@ export default function ProductCard({
 }) {
     return (
         <Link href={`/lorem/products/${product.id}`} prefetch={true}>
-            <div className="w-full max-w-sm overflow-hidden rounded-md border-gray-200 border-[1px] hover:cursor-pointer hover:opacity-65 transition-opacity duration-300">
-                <Image  
+            <div className="group w-full max-w-sm overflow-hidden rounded-md border-gray-200 border-[1px] hover:cursor-pointer hover:opacity-65 transition-opacity duration-300">
+                <Image
                     src={product.image_url}
                     width={404}
                     height={404}
@@ -21,7 +21,9 @@ export default function ProductCard({
                 />
                 <div className="m-3 pl-2 h-[80px]">
                     <div>
-                        <h1 className={`${lusitana.className} text-lg sm:text-xl font-bold`}>{product.name}</h1>
+                        <h1 className={`${lusitana.className} text-lg sm:text-xl font-bold`}>
+                        {product.name}
+                        </h1>
                     </div>
                     <div>
                         <p className="text-base sm:text-lg font-medium">${product.price}</p>
@@ -29,5 +31,6 @@ export default function ProductCard({
                 </div>
             </div>
         </Link>
+
     )
 }

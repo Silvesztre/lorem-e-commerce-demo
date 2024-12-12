@@ -212,8 +212,8 @@ export async function addProduct(prevState: ProductState, formData: FormData) {
     };
   }
 
-  revalidatePath('/lorem/products');
-  redirect('/lorem/products');
+  revalidatePath('/lorem/admin/products');
+  redirect('/lorem/admin/products');
 }
 
 const UpdateProduct = ProductFormSchema.omit({id: true, created_at: true})
@@ -248,8 +248,8 @@ export async function updateProduct(id:string, prevState: ProductState, formData
     return { message: 'Database Error: Failed to Update Product.' }
   }
 
-  revalidatePath('/lorem/products')
-  redirect('/lorem/products')
+  revalidatePath('/lorem/admin/products')
+  redirect('/lorem/admin/products')
 
 }
 
@@ -261,8 +261,8 @@ export async function deleteProduct(id: string) {
   } catch (error) {
       return { message: 'Database Error: Failed to Delete Product.' }
   } finally {
-    revalidatePath('/lorem/products')
-    redirect('/lorem/products')
+    revalidatePath('/lorem/admin/products')
+    redirect('/lorem/admin/products')
   }
 }
 
@@ -306,7 +306,6 @@ export async function addProductToCart(id:string, user_id: string | undefined, a
       return { message: 'Database Error: Failed to Add Product to Cart.' }
   }
 
-  console.log("Success!")
   revalidatePath('/lorem/cart')
   redirect('/lorem/cart')
 }
@@ -320,8 +319,8 @@ export async function cancelCartItems(cart_id: string | undefined) {
   } catch (error) {
     return {message: "Database Error. Failed to remove items from cart."}
   } finally {
-    revalidatePath('/lorem/products')
-    redirect('/lorem/products')
+    revalidatePath('/lorem/cart')
+    redirect('/lorem/cart')
   }
 }
 

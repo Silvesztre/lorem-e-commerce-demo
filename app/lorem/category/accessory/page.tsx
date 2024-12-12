@@ -24,11 +24,11 @@ export default async function Page({
 
     return (
         <div>
-            <h1 className={`${lusitana.className} text-2xl`}>Our Products</h1>
+            <h1 className={`${lusitana.className} text-2xl`}>Accessories</h1>
 
             {/* Search Bar */}
             <div className='mt-4'>
-                <Search placeholder='Search products...'/>
+                <Search placeholder='Search accessories...'/>
             </div>
 
             {/* Product List */}

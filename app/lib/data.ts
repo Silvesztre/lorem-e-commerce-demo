@@ -79,7 +79,7 @@ export async function fetchCardData() {
   }
 }
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 9;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
@@ -232,7 +232,7 @@ export async function fetchFilteredProducts(
     WHERE
       products.name ILIKE ${`%${query}%`} OR
       products.category ILIKE ${`%${query}%`}
-    ORDER BY products.category ASC
+    ORDER BY products.name ASC
     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `
   return products.rows

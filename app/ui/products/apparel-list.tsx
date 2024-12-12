@@ -11,10 +11,12 @@ export default async function ApparelList({
     const products = await fetchFilteredApparel(query, currentPage);
 
     return (
-        <div className="grid grid-cols-3 gap-6 p-4">
-            {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-            ))}
+        <div className='flex justify-center mt-9'>
+            <div className="grid grid-cols-3 gap-5 w-[1220px] justify-between">
+                {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                ),)}
+            </div>
         </div>
     );
 }
