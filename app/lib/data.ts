@@ -242,6 +242,35 @@ export async function fetchFilteredProducts(
   }
 }
 
+export async function fetchFilteredApparel(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+  try {
+    const products = await sql<Product>`
+    SELECT
+      products.id,
+      products.name,
+      products.category,
+      products.price,
+      products.available,
+      products.image_url
+    FROM products
+    WHERE
+      products.name ILIKE ${`%${query}%`} AND
+      products.category = 'Apparel'
+    ORDER BY products.category ASC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
+    return products.rows
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch products.');
+  }
+}
+
 export async function fetchProductsPages() {
   try {
     const count = await sql`SELECT COUNT(*)

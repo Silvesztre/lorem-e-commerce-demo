@@ -1,11 +1,46 @@
 import { Metadata } from "next"
+import { fetchProductsPages } from "@/app/lib/data"
+import Search from "@/app/ui/search"
+import { lusitana } from "@/app/ui/fonts"
+import Pagination from "@/app/ui/invoices/pagination"
+import ApparelList from "@/app/ui/products/apparel-list"
 
 export const metadata: Metadata = {
     title: 'Apparel',
 }
 
-export default function Page() {
+export default async function Page({
+    searchParams
+}: {
+    searchParams?: {
+        query?: string
+        page?: string
+    }
+}) {
+
+    const query = searchParams?.query || ''
+    const currentPage = Number(searchParams?.page) || 1
+    const totalPages = await fetchProductsPages()
+
     return (
-        <>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda quos quia autem facere corporis? Totam quas inventore earum hic soluta quo consequuntur, adipisci ipsum odit iure consequatur, ducimus nisi cumque!</>
+        <div>
+            <h1 className={`${lusitana.className} text-2xl`}>Our Products</h1>
+
+            {/* Search Bar */}
+            <div className='mt-4'>
+                <Search placeholder='Search products...'/>
+            </div>
+
+            {/* Product List */}
+            <div>
+                <ApparelList query={query} currentPage={currentPage}/>
+            </div>
+
+            {/* Pagination */}
+            <div className="mt-5 flex w-full justify-center">
+                <Pagination totalPages={totalPages} />
+            </div>
+
+        </div>
     )
 }

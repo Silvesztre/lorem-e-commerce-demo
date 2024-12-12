@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
-import ProductsList from '@/app/ui/products/list';
+import ProductsList from '@/app/ui/products/product-list';
 import { fetchProductsPages } from '@/app/lib/data';
 import Pagination from '@/app/ui/invoices/pagination';
 
