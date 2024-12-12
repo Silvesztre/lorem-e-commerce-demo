@@ -12,11 +12,6 @@ import { formatCurrency } from './utils';
 
 export async function fetchRevenue() {
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
-
-/*       console.log('Fetching revenue data...');
-      await new Promise((resolve) => setTimeout(resolve, 3000)); */
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -84,7 +79,7 @@ export async function fetchCardData() {
   }
 }
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
@@ -247,7 +242,7 @@ export async function fetchFilteredProducts(
   }
 }
 
-export async function fetchProductsPages(query: string) {
+export async function fetchProductsPages() {
   try {
     const count = await sql`SELECT COUNT(*)
     FROM products

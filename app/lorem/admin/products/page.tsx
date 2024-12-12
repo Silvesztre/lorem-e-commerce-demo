@@ -21,7 +21,7 @@ export default async function Page({
 
     const query = searchParams?.query || ''
     const currentPage = Number(searchParams?.page) || 1
-    const totalPages = await fetchProductsPages(query)
+    const totalPages = await fetchProductsPages()
 
     return (     
         <div className='w-full'>

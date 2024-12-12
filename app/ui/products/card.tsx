@@ -1,8 +1,7 @@
 import Image from "next/image"
 import { lusitana } from '@/app/ui/fonts';
-import { Product } from "@/app/lib/definitions";
 import Link from "next/link";
-import { QueryResult, QueryResultRow } from "@vercel/postgres";
+import { QueryResultRow } from "@vercel/postgres";
 
 export default function ProductCard({
     product
