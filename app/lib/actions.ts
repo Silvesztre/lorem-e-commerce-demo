@@ -307,8 +307,8 @@ export async function addProductToCart(id:string, user_id: string | undefined, a
   }
 
   console.log("Success!")
-  revalidatePath('/lorem/products')
-  redirect('/lorem/products')
+  revalidatePath('/lorem/cart')
+  redirect('/lorem/cart')
 }
 
 export async function cancelCartItems(cart_id: string | undefined) {
@@ -341,7 +341,7 @@ export async function checkoutCart(cart_id: string | undefined) {
     console.error("Database Error:", error); // Debugging line for errors
     return { message: "Database Error. Failed to checkout." };
   } finally {
-    revalidatePath('/lorem/products');
-    redirect('/lorem/products');
+    revalidatePath('/lorem/cart');
+    redirect('/lorem/cart');
   }
 }

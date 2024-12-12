@@ -21,6 +21,8 @@ export default function AddToCartForm({
     const addToCart = addProductToCart.bind(null, product.id, session?.user?.id, product.available)
     const [state, formAction] = useActionState(addToCart, initialState)
 
+    console.log(session?.user?.id)
+
     return (
         <form action={formAction}>
             <div className="rounded-md bg-gray-50 p-4 md:p-6 flex">
