@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-    title: 'Accessory',
+    title: 'Cart',
 }
 
 export default async function Page() {

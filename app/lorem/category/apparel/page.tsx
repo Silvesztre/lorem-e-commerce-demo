@@ -6,7 +6,7 @@ import Pagination from "@/app/ui/invoices/pagination"
 import ApparelList from "@/app/ui/products/apparel-list"
 
 export const metadata: Metadata = {
-    title: 'Apparel',
+    title: 'Apparels',
 }
 
 export default async function Page({
